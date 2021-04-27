@@ -1,0 +1,60 @@
+
+log 			Info.txt append
+units			si
+
+atom_style		bond
+boundary		p p p
+
+read_data		Topology.dat
+replicate		5 5 5			# you can change this			
+
+mass			* 2.0E-26
+
+bond_style		harmonic
+bond_coeff		1 200.0 2.0E-10
+
+pair_style		lj/smooth 1.2E-9 1.4E-9
+pair_coeff		1 1 1.0E-21 4.0E-10			# you can change this
+pair_coeff		2 2 1.0E-21 4.0E-10			# you can change this
+pair_modify		mix geometric
+
+neighbor		2.0E-10 bin
+
+variable		Cycles1 equal 10000
+variable		Cycles2 equal 100000
+variable		ThrmPrbe equal 50
+variable		DumpPrbe equal 500
+
+variable		Colors string '* green/orange/blue/red/violet/yellow'
+
+run			0
+
+log 			Record1.dat
+timestep		2.0E-15
+fix			Stage all nvt temp 200.0 200.0 2.0E-13						# you can change this
+thermo			${ThrmPrbe}
+thermo_style		custom step time temp press epair emol pe ke etotal
+dump			Trjctr all custom ${DumpPrbe} Trjctr1.dat mol type x y z vx vy vz
+dump_modify		Trjctr sort id
+dump			Clip all movie ${DumpPrbe} Clip1.avi type type adiam 4.0E-10
+dump_modify		Clip acolor ${Colors}
+run			${Cycles1}
+undump			Trjctr
+undump			Clip
+unfix			Stage
+log 			Info.txt append
+
+log 			Record2.dat
+timestep		1.0E-15
+fix			Stage all nvt temp 200.0 200.0 1.0E-13						# you can change this
+thermo			${ThrmPrbe}
+thermo_style		custom step time temp press epair emol pe ke etotal
+dump			Trjctr all custom ${DumpPrbe} Trjctr2.dat mol type x y z vx vy vz
+dump_modify		Trjctr sort id
+dump			Clip all movie ${DumpPrbe} Clip2.avi type type adiam 4.0E-10
+dump_modify		Clip acolor ${Colors}
+run			${Cycles2}
+undump			Trjctr
+undump			Clip
+unfix			Stage
+log 			Info.txt append
