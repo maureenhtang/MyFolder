@@ -1,6 +1,6 @@
 LAMMPS (10 Mar 2021)
-OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:94)
-  using 1 OpenMP thread(s) per MPI task
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. 
+  using 1 OpenMP thread(s) per MPI task (AviChai)
 
 log 			Info.txt append
 units			si
