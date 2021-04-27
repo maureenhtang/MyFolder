@@ -1,3 +1,4 @@
+Maureen made a change at 15:07
 LAMMPS (10 Mar 2021)
 OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. 
   using 1 OpenMP thread(s) per MPI task (AviChai)
